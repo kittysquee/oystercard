@@ -2,7 +2,6 @@ require 'oystercard'
 
 describe Oystercard do
 
-  let(:journey) { double :journey }
   let(:station) {double :station}
 
   describe '#initialize' do
@@ -67,8 +66,9 @@ describe Oystercard do
         subject.touch_in(station)
         subject.touch_out(station)
       end
+
       it 'can touch out' do
-        expect(subject).not_to be_in_journey
+        expect(subject.in_journey?).to eq false
       end
 
       it 'records the exit station' do
@@ -77,12 +77,10 @@ describe Oystercard do
     end
 
     it 'resets entry station to nil' do
-      pending('integration of journey class')
       subject.top_up(5)
       subject.touch_in(station)
-      expect(subject.journey).to receive(:end)
       subject.touch_out(station)
-
+      expect(subject.journey.entry_station).to eq nil
     end
 
     it 'deducts minimum fare' do

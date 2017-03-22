@@ -26,12 +26,12 @@ class Oystercard
 
   def touch_out(exit_station)
     deduct_money(MINIMUM_CHARGE)
-    journeys << {entry_station => exit_station}
-    journey.end(station)
+    journeys << {journey.entry_station => exit_station}
+    journey.end(exit_station)
   end
 
   def in_journey?
-    entry_station != nil
+    journey.entry_station != nil
   end
 
   private

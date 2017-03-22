@@ -13,6 +13,7 @@ class Journey
 
   def end(station)
     self.exit_station = station
+    self.entry_station = nil
   end
 
   private
