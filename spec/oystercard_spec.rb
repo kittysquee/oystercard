@@ -2,7 +2,7 @@ require 'oystercard'
 
 describe Oystercard do
 
-  let(:journey) { Journey.new }
+  let(:journey) { double :journey }
   let(:station) {double :station}
 
   describe '#initialize' do
@@ -43,9 +43,13 @@ describe Oystercard do
         expect(subject).to be_in_journey
       end
 
-      it 'records the entry station' do
-        expect(subject.entry_station).to eq station
-      end
+    end
+    it 'records the entry station' do
+      subject.top_up(5)
+      # expect(subject.journey).to receive(:start(station))
+      expect(subject.journey).to receive(:start)
+      subject.touch_in(station)
+
     end
 
     it 'checks minimum balance' do
@@ -67,13 +71,18 @@ describe Oystercard do
         expect(subject).not_to be_in_journey
       end
 
-      it 'resets entry station to nil' do
-        expect(subject.entry_station).to be_nil
-      end
-
       it 'records the exit station' do
         expect(subject.journeys).to include({station => station})
       end
+    end
+
+    it 'resets entry station to nil' do
+      pending('integration of journey class')
+      subject.top_up(5)
+      subject.touch_in(station)
+      expect(subject.journey).to receive(:end)
+      subject.touch_out(station)
+
     end
 
     it 'deducts minimum fare' do
