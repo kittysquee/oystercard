@@ -2,7 +2,15 @@ require 'journey'
 
 describe Journey do
 
-  let(:station) {double :station}
+  let(:entry_station) {double :station}
+  let(:exit_station) {double :station}
+  subject(:journey) {described_class.new}
+  # let(:card) {double :card}
+  #
+  # before do
+  #   allow(card).to receive(:touch_in)
+  #   allow(card).to recieve(:touch_out)
+  # end
 
   describe '#initialize' do
     it 'initializes entry station with nil' do
@@ -16,16 +24,36 @@ describe Journey do
 
   describe '#start' do
     it 'assigns an entry station' do
-      subject.start(station)
-      expect(subject.entry_station).to eq station
+      journey.start(entry_station)
+      expect(journey.entry_station).to eq entry_station
     end
   end
 
   describe '#end' do
     it 'assigns an exit station' do
-      subject.end(station)
-      expect(subject.exit_station).to eq station
+      journey.end(exit_station)
+      expect(journey.exit_station).to eq exit_station
     end
   end
 
+  describe '#completed?' do
+    it 'checks if the journey is completed' do
+      journey.start(:entry_station)
+      journey.end(:exit_station)
+      expect(journey.completed?).to eq true
+    end
+  end
+
+  describe '#fare' do
+    it 'takes penalty fare if journey not completed' do
+      journey.end(:exit_station)
+    expect(subject.fare).to eq Journey::PENALTY_CHARGE
+    end
+
+    it 'takes the minimum payment if journey completed' do
+      journey.start(:entry_station)
+      journey.end(:exit_station)
+      expect(subject.fare).to eq Journey::MINIMUM_CHARGE
+    end
+  end
 end

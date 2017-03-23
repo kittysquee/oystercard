@@ -34,7 +34,7 @@ describe Oystercard do
 
     context 'success cases' do
       before do
-        subject.top_up(5)
+        subject.top_up(10)
         subject.touch_in(station)
       end
 
@@ -44,11 +44,9 @@ describe Oystercard do
 
     end
     it 'records the entry station' do
-      subject.top_up(5)
-      # expect(subject.journey).to receive(:start(station))
+      subject.top_up(10)
       expect(subject.journey).to receive(:start)
       subject.touch_in(station)
-
     end
 
     it 'checks minimum balance' do
@@ -62,13 +60,9 @@ describe Oystercard do
 
     context 'verifying entry and exit data' do
       before do
-        subject.top_up(5)
+        subject.top_up(10)
         subject.touch_in(station)
         subject.touch_out(station)
-      end
-
-      it 'can touch out' do
-        expect(subject.in_journey?).to eq false
       end
 
       it 'records the exit station' do
@@ -76,16 +70,15 @@ describe Oystercard do
       end
     end
 
-    it 'resets entry station to nil' do
-      subject.top_up(5)
+    it 'deducts the minimum fare if journey complete' do
+      subject.top_up(10)
       subject.touch_in(station)
-      subject.touch_out(station)
-      expect(subject.journey.entry_station).to eq nil
+      expect{ subject.touch_out(station) }.to change{subject.balance}.by(-1)
     end
 
-    it 'deducts minimum fare' do
-      expect {subject.touch_out(station)}.to change{subject.balance}.by(-1)
+    it 'deducts penalty fare if journey incomplete' do
+      subject.top_up(10)
+      expect {subject.touch_out(station)}.to change{subject.balance}.by(-6)
     end
-
   end
 end

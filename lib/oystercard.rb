@@ -6,7 +6,6 @@ class Oystercard
 
   MAXIMUM_BALANCE = 90
   MINIMUM_BALANCE = 1
-  MINIMUM_CHARGE = 1
 
   def initialize
     @balance = 0
@@ -21,13 +20,13 @@ class Oystercard
 
   def touch_in(station)
     fail "Minimum £1 needed to touch in" if balance < MINIMUM_BALANCE
-    journey.start(station)
+      journey.start(station)
   end
 
   def touch_out(exit_station)
-    deduct_money(MINIMUM_CHARGE)
     journeys << {journey.entry_station => exit_station}
     journey.end(exit_station)
+    deduct_money(journey.fare)
   end
 
   def in_journey?
