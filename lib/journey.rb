@@ -20,18 +20,27 @@ class Journey
   end
 
   def completed?
-    entry_station != nil && exit_station != nil
+    has_entry_station && has_exit_station
   end
 
   def fare
     completed? ? MINIMUM_CHARGE : PENALTY_CHARGE
   end
 
-  
-
+  def in_journey?
+    has_entry_station
+  end
 
   private
 
   attr_writer :entry_station, :exit_station, :completed
+
+  def has_entry_station
+    entry_station != nil
+  end
+
+  def has_exit_station
+    exit_station != nil
+  end
 
 end

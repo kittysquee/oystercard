@@ -5,12 +5,6 @@ describe Journey do
   let(:entry_station) {double :station}
   let(:exit_station) {double :station}
   subject(:journey) {described_class.new}
-  # let(:card) {double :card}
-  #
-  # before do
-  #   allow(card).to receive(:touch_in)
-  #   allow(card).to recieve(:touch_out)
-  # end
 
   describe '#initialize' do
     it 'initializes entry station with nil' do
@@ -54,6 +48,12 @@ describe Journey do
       journey.start(:entry_station)
       journey.end(:exit_station)
       expect(subject.fare).to eq Journey::MINIMUM_CHARGE
+    end
+  end
+
+  describe '#in_journey?' do
+    it 'is initially not in a journey' do
+      expect(subject).not_to be_in_journey
     end
   end
 end
