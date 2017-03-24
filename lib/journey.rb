@@ -6,8 +6,8 @@ class Journey
   PENALTY_CHARGE = 6
   MINIMUM_CHARGE = 1
 
-  def initialize
-    @entry_station = nil
+  def initialize(entry_station = nil)
+    @entry_station = entry_station
     @exit_station = nil
   end
 
@@ -29,6 +29,14 @@ class Journey
 
   def in_journey?
     has_entry_station
+  end
+
+  def completed_journey
+    {
+      entry_station:  entry_station,
+      exit_station:   exit_station
+    }
+
   end
 
   private

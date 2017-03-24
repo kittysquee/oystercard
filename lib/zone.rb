@@ -1,6 +1,6 @@
 module Zone
 
-  Zone_list = {
+  ZONE_LIST = {
     'Holborn' => 1,
     'Bond_St' => 1,
     'Whitechapel' => 2,
@@ -8,7 +8,7 @@ module Zone
   }
 
   def Zone.zones(station)
-    Zone_list[station]
+    ZONE_LIST[station]
   end
 
 end

@@ -5,6 +5,8 @@ describe Journey do
   let(:entry_station) {double :station}
   let(:exit_station) {double :station}
   subject(:journey) {described_class.new}
+  let (:finished_journey_hash) { { entry_station: entry_station, exit_station: exit_station } }
+
 
   describe '#initialize' do
     it 'initializes entry station with nil' do
@@ -21,6 +23,16 @@ describe Journey do
       journey.start(entry_station)
       expect(journey.entry_station).to eq entry_station
     end
+  end
+
+  describe '#completed_journey' do
+    it 'puts exit and entry station into hash correctly' do
+      allow(journey).to receive(:entry_station) { entry_station }
+      allow(journey).to receive(:exit_station)  { exit_station }
+
+      expect(journey.completed_journey).to eq(finished_journey_hash) 
+    end
+
   end
 
   describe '#end' do

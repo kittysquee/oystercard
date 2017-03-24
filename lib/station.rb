@@ -1,4 +1,5 @@
 require_relative 'zone'
+require_relative 'journey'
 
 class Station
 
@@ -10,6 +11,7 @@ class Station
     @name = name
     @zone = Zone.zones(name)
   end
+
 
 
 end
